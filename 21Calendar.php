@@ -289,6 +289,7 @@
             $rMonth = rand(date('m'), 12);
             $rDay = rand($today, date('t', $rMonth));
           }
+          include('holiday.php');
 
           ?>
           <form class="d-flex" action="21Calendar.php" method="get">
@@ -359,7 +360,6 @@
       '11' => "November",
       '12' => "December"
     ];
-    $ec = $enmonth[$thisMonth];
     ?>
     <div id="alert" class="alert position-absolute alert-warning alert-dismissible fade show" role="alert">
       <?= "Info：幫您精挑細選了" . $year . "年" . $thisMonth . "月" . $rDay . "日這個特別日子，趕快安排些活動吧！ " ?>
@@ -374,7 +374,7 @@
           <img class="md-pic d-black d-md-none w-100" src="https://picsum.photos/768/200/?random=1" alt="...">
           <div class="overlay">
             <div class="syear display-1"><?= $year ?></div>
-            <div class="smonth display-6 border-bottom"><?= $ec ?></div>
+            <div class="smonth display-6 border-bottom"><?= $enmonth[$thisMonth] ?></div>
           </div>
           <div class="btn2">
             <a class="carousel-control-prev flex-column text-decoration-none" href="?year=<?php echo $preYear ?>&month=<?php echo $preMonth ?>" role="button" data-slide="prev">
@@ -411,32 +411,10 @@
                 <?php
 
                 //萬年曆本體
-                for ($i = 0; $i < $week; $i++) {
-                  echo "<tr>";
-                  for ($j = 0; $j < 7; $j++) {
-                    if ($year == date('Y') && $thisMonth == date('m') && (($i * 7) + ($j + 1)) == date('j')) { //標註今日
-                      echo "<td class='date today border border-white'>" . date('j');
-                    } elseif ($i == 0 && $j < $startDayWeek) {
-                      echo "<td class='date pmonth border border-white'>" . ($j + 1 - $startDayWeek + $pDays); //none
-                    } elseif ((($i * 7) + ($j + 1)) - $startDayWeek > $monthDay) {
-                      echo "<td class='date nmonth border border-white'>" . ($j - $nDays); //none
-                    } else {
-                      echo "<td class='date h4 border border-white'>" . (($i * 7) + ($j + 1) - $startDayWeek);
-                    }
-                    echo "</td>";
-                  }
-                  echo "<tr>";
-                }
-                ?>
-                <?php
-
-                //萬年曆本體2
                 // for ($i = 0; $i < $week; $i++) {
                 //   echo "<tr>";
                 //   for ($j = 0; $j < 7; $j++) {
-                //     if ((($i * 7) + ($j + 1) - $startDayWeek) == $rDay) {
-                //       echo "<td class='sday border border-white'>" . $rDay;
-                //     } elseif ($year == date('Y') && $thisMonth == date('m') && (($i * 7) + ($j + 1)) == date('j')) { //標註今日
+                //     if ($year == date('Y') && $thisMonth == date('m') && (($i * 7) + ($j + 1)) == date('j')) { //標註今日
                 //       echo "<td class='date today border border-white'>" . date('j');
                 //     } elseif ($i == 0 && $j < $startDayWeek) {
                 //       echo "<td class='date pmonth border border-white'>" . ($j + 1 - $startDayWeek + $pDays); //none
@@ -449,6 +427,32 @@
                 //   }
                 //   echo "<tr>";
                 // }
+                ?>
+                <?php
+                
+                //萬年曆本體2
+                for ($i = 0; $i < $week; $i++) {
+                  echo "<tr>";
+                  for ($j = 0; $j < 7; $j++) {
+                    $date = '';
+                    if ($year == date('Y') && $thisMonth == date('m') && (($i * 7) + ($j + 1)) == date('j')) { //標註今日
+                      echo "<td class='date today border border-white'>" . date('j');
+                    } elseif ($i == 0 && $j < $startDayWeek) {
+                      echo "<td class='date pmonth border border-white'>" . ($j + 1 - $startDayWeek + $pDays); //none
+                    } elseif ((($i * 7) + ($j + 1)) - $startDayWeek > $monthDay) {
+                      echo "<td class='date nmonth border border-white'>" . ($j - $nDays); //none
+                    } else {
+                      $todate = (($i * 7) + ($j + 1) - $startDayWeek);
+                    }
+                    if (!empty($holiday[$thisMonth . '-' . $date])) {
+                      echo $holiday[$thisMonth.'-'.$date];
+                    };
+                    echo "</td>";
+                  }
+                  echo "<tr>";
+                }
+
+
                 ?>
               </tbody>
             </table>
@@ -475,7 +479,7 @@
       </div>
     </div>
   </div>
-<style>
+  <style>
     <?php
     if ($thisMonth == 1) {
       echo "
@@ -705,7 +709,7 @@
       }";
     }
     ?>
-</style>
+  </style>
   <div class="fire">
     <img class="f1 position-absolute" src="https://i.postimg.cc/1XgBtk7Z/firework.png">
     <img class="f2 position-absolute" src="https://i.postimg.cc/d1Cmc2hq/fireworkb.png">
