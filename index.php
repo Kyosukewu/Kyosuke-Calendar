@@ -11,6 +11,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <title>Kyosuke's Calendar</title>
 </head>
+
 <body>
   <?php
   //ini_set('display_errors','off');//關閉輸出錯誤訊息
@@ -54,7 +55,7 @@
           }
 
           ?>
-          <form class="d-flex" action="?" method="get">
+          <form class="d-flex" action="index.php" method="get">
             <input class="form-control mr-2" type="text" name="year" maxlength="4" size="3" placeholder="YYYY" value="<?= date('Y') ?>" required>
 
             <select class="form-control mr-2" name="month">
@@ -282,6 +283,8 @@
   </div>
   <style>
     body {
+      height: 100vh;
+      overflow: hidden;
       <?php
       switch ($thisMonth) {
         case '1':
@@ -336,7 +339,6 @@
 
       ?>
     }
-
     <?php
     if ($thisMonth == 1) {
       echo "
