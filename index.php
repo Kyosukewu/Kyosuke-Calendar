@@ -18,18 +18,19 @@
   //date_default_timezone_set("Asia/Taipei");
   $year = date('Y');
   $month = date('m');
+  $nowmonth = date('n');
   ?>
   <div class="container-xxl">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
       <div class="container-fluid">
-        <a class="navbar-brand" href="21Calendar.php" target="_self">Kyosuke's Calendar</a>
+        <a class="navbar-brand" href="index.php" target="_self">Kyosuke's Calendar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="nav-link align-center" href="21Calendar.php?year=<?php echo $year ?>&month=<?php echo $month ?>">Back to today</a>
+              <a class="nav-link align-center" href="?year=<?php echo $year ?>&month=<?php echo $nowmonth ?>">Back to today</a>
             </li>
           </ul>
           <?php
@@ -53,7 +54,7 @@
           }
 
           ?>
-          <form class="d-flex" action="21Calendar.php" method="get">
+          <form class="d-flex" action="?" method="get">
             <input class="form-control mr-2" type="text" name="year" maxlength="4" size="3" placeholder="YYYY" value="<?= date('Y') ?>" required>
 
             <select class="form-control mr-2" name="month">
@@ -125,7 +126,7 @@
     <div id="alert" class="alert position-absolute alert-warning alert-dismissible fade show" role="alert">
       <?= "Info：幫您精挑細選了" . $year . "年" . $thisMonth . "月" . $rDay . "日這個特別日子，趕快安排些活動吧！ " ?>
       <br>
-      <a class="text-center" href="21Calendar.php?year=<?php echo $rYear ?>&month=<?php echo $rMonth ?>">不喜歡這天？ 點擊這裡找尋新的命定之日！</a>
+      <a class="text-center" href="?year=<?php echo $rYear ?>&month=<?php echo $rMonth ?>">不喜歡這天？ 點擊這裡找尋新的命定之日！</a>
       <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
     </div>
     <div class="card mb-3 border-0">
@@ -229,7 +230,7 @@
                   for ($j = 0; $j < 7; $j++) {
                     echo "<td class='position-relative border border-secondary'>";
                     $date = '';
-                    if ($year == date('Y') && $thisMonth == date('m') && (($i * 7) + ($j + 1)) == date('j')) { //標註今日
+                    if ($year == date('Y') && $thisMonth == date('m') && (($i * 7) + ($j + 1))-1 == date('j')) { //標註今日
                       echo "<div class='date today position-absolute border border-secondary'>" . date('j') . "</div>";
                     }
                     if ($i == 0 && $j < $startDayWeek) {
